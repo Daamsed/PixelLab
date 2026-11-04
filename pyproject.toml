@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "matrix-sender"
+version = "0.1.0"
+description = "Send RGB frames to an ESP32 LED matrix over serial and gRPC."
+requires-python = ">=3.10"
+dependencies = [
+    "grpcio>=1.72.2",
+    "protobuf>=6.30,<6.32",
+    "pyserial>=3.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "grpcio-tools>=1.72.2,<1.73",
+    "pytest>=8",
+]
+
+[project.scripts]
+matrix-sender-server = "matrix_sender.server:main"
+
+[tool.setuptools.packages.find]
+include = ["matrix_sender*"]
+
+[tool.setuptools.package-data]
+matrix_sender = ["*.proto"]
+
+[tool.pytest.ini_options]
+testpaths = ["."]

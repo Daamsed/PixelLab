@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package matrixsender.v1;
+option csharp_namespace = "MatrixSender";
+
+service MatrixSender {
+  rpc ListPorts(ListPortsRequest) returns (ListPortsResponse);
+  rpc SendFrame(SendFrameRequest) returns (SendFrameResponse);
+}
+
+message ListPortsRequest {}
+
+message ListPortsResponse {
+  repeated string ports = 1;
+}
+
+message SendFrameRequest {
+  string port = 1;
+  bytes rgb_frame = 2;
+  uint32 width = 3;
+  uint32 height = 4;
+}
+
+message SendFrameResponse {
+  uint32 bytes_sent = 1;
+}

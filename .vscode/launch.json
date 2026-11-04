@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug PixelLab WPF",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build PixelLab WPF",
+      "program": "${workspaceFolder}/PixelLab/bin/Debug/net8.0-windows/PixelLab.dll",
+      "cwd": "${workspaceFolder}/PixelLab",
+      "console": "internalConsole"
+    }
+  ]
+}

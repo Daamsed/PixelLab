@@ -1,0 +1,59 @@
+﻿<Window x:Class="PixelLab.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PixelLab"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <TextBlock
+                Text="Welcome!"
+                FontSize="30"/>
+
+            <Button
+                Content="Test Pattern"
+                Width="150"
+                Height="40"
+                Click="TestPatternButton_Click"/>
+            <Button
+                Content="Send Drawing"
+                Width="150"
+                Height="40"
+                Click="SendInkCanvasButton_Click"/>
+            <Button
+                Content="Clear Drawing"
+                Width="150"
+                Height="40"
+                Click="ClearDrawingButton_Click"/>
+            <InkCanvas
+                x:Name="BlackBoard"
+                Width="256"
+                Height="256"
+                Background="Black"/>
+            <CheckBox
+                x:Name="ContinuousUpdates"
+                Content="Continuously Updates RGB screen"
+                IsChecked="False"
+                Click="ContinuousUpdates_Click"/>
+            <xctk:ColorPicker
+                x:Name="DrawingColorPicker"
+                SelectedColor="#FFFFFFFF"
+                SelectedColorChanged="DrawingColorPicker_SelectedColorChanged"
+                Width="220"
+                Margin="4"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Thickness:" Width="300" VerticalAlignment="Center"/>
+                    <Slider x:Name="ThicknessSlider" Minimum="4" Maximum="20" Value="4"
+                            TickFrequency="1" IsSnapToTickEnabled="True" Width="220"/>
+                    <TextBlock x:Name="ThicknessValue" Width="35" Text="4"
+                               TextAlignment="Right" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
