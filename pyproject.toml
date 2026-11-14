@@ -9,6 +9,7 @@ description = "Send RGB frames to an ESP32 LED matrix over serial and gRPC."
 requires-python = ">=3.10"
 dependencies = [
     "grpcio>=1.72.2",
+    "opencv-python-headless>=4.10",
     "protobuf>=6.30,<6.32",
     "pyserial>=3.5",
 ]

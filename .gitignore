@@ -17,3 +17,7 @@ dist/
 *.egg-info/
 .coverage
 htmlcov/
+.vscode/
+
+# Other
+JobVacancy/

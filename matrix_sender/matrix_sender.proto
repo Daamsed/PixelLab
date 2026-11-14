@@ -6,9 +6,18 @@ option csharp_namespace = "MatrixSender";
 service MatrixSender {
   rpc ListPorts(ListPortsRequest) returns (ListPortsResponse);
   rpc SendFrame(SendFrameRequest) returns (SendFrameResponse);
+  rpc StreamCamera(CameraStreamRequest) returns (stream CameraFrame);
 }
 
 message ListPortsRequest {}
+
+message CameraStreamRequest {}
+
+message CameraFrame {
+  bytes rgb_frame = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+}
 
 message ListPortsResponse {
   repeated string ports = 1;

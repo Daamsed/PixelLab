@@ -49,6 +49,12 @@ Drawing**. **Continuously Updates RGB screen** sends the current drawing
 repeatedly while enabled. **Test Pattern** sends a generated image, and **Clear
 Drawing** clears the canvas.
 
+Enable **Camera Streaming** to display frames from the USB camera at index 0 on
+the InkCanvas. The camera image becomes the canvas background, so you can draw
+over it and send it using **Send Drawing** or **Continuously Updates RGB
+screen**. Uncheck the option to stop the camera and restore the black
+background.
+
 The app captures the canvas as row-major RGB bytes and sends those bytes with
 the source width and height. The Python service validates the frame, center
 pads it to a square using black, downsamples each block to its most common

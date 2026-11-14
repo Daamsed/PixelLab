@@ -1,4 +1,7 @@
+using System.Runtime.CompilerServices;
+
 using Google.Protobuf;
+using Grpc.Core;
 using Grpc.Net.Client;
 using MatrixSender;
 
@@ -28,6 +31,21 @@ internal static class MatrixSenderService
         });
 
         return response.BytesSent;
+    }
+
+    public static async IAsyncEnumerable<CameraFrame> StreamCameraAsync(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        using var channel = GrpcChannel.ForAddress("http://127.0.0.1:50051");
+        var client = new global::MatrixSender.MatrixSender.MatrixSenderClient(channel);
+        using var call = client.StreamCamera(
+            new CameraStreamRequest(),
+            cancellationToken: cancellationToken);
+
+        await foreach (var frame in call.ResponseStream.ReadAllAsync(cancellationToken))
+        {
+            yield return frame;
+        }
     }
 
     private static byte[] CreateTestPattern(int patternId)

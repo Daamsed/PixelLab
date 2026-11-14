@@ -41,6 +41,12 @@
                 Content="Continuously Updates RGB screen"
                 IsChecked="False"
                 Click="ContinuousUpdates_Click"/>
+            <CheckBox
+                x:Name="CameraStreaming"
+                Content="Camera Streaming"
+                IsChecked="False"
+                Checked="CameraStreaming_Checked"
+                Unchecked="CameraStreaming_Unchecked"/>
             <xctk:ColorPicker
                 x:Name="DrawingColorPicker"
                 SelectedColor="#FFFFFFFF"

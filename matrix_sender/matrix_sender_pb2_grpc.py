@@ -44,6 +44,11 @@ class MatrixSenderStub(object):
                 request_serializer=matrix__sender_dot_matrix__sender__pb2.SendFrameRequest.SerializeToString,
                 response_deserializer=matrix__sender_dot_matrix__sender__pb2.SendFrameResponse.FromString,
                 _registered_method=True)
+        self.StreamCamera = channel.unary_stream(
+                '/matrixsender.v1.MatrixSender/StreamCamera',
+                request_serializer=matrix__sender_dot_matrix__sender__pb2.CameraStreamRequest.SerializeToString,
+                response_deserializer=matrix__sender_dot_matrix__sender__pb2.CameraFrame.FromString,
+                _registered_method=True)
 
 
 class MatrixSenderServicer(object):
@@ -61,6 +66,12 @@ class MatrixSenderServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def StreamCamera(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_MatrixSenderServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -73,6 +84,11 @@ def add_MatrixSenderServicer_to_server(servicer, server):
                     servicer.SendFrame,
                     request_deserializer=matrix__sender_dot_matrix__sender__pb2.SendFrameRequest.FromString,
                     response_serializer=matrix__sender_dot_matrix__sender__pb2.SendFrameResponse.SerializeToString,
+            ),
+            'StreamCamera': grpc.unary_stream_rpc_method_handler(
+                    servicer.StreamCamera,
+                    request_deserializer=matrix__sender_dot_matrix__sender__pb2.CameraStreamRequest.FromString,
+                    response_serializer=matrix__sender_dot_matrix__sender__pb2.CameraFrame.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -129,6 +145,33 @@ class MatrixSender(object):
             '/matrixsender.v1.MatrixSender/SendFrame',
             matrix__sender_dot_matrix__sender__pb2.SendFrameRequest.SerializeToString,
             matrix__sender_dot_matrix__sender__pb2.SendFrameResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StreamCamera(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/matrixsender.v1.MatrixSender/StreamCamera',
+            matrix__sender_dot_matrix__sender__pb2.CameraStreamRequest.SerializeToString,
+            matrix__sender_dot_matrix__sender__pb2.CameraFrame.FromString,
             options,
             channel_credentials,
             insecure,

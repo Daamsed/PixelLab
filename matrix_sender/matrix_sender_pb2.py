@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!matrix_sender/matrix_sender.proto\x12\x0fmatrixsender.v1\"\x12\n\x10ListPortsRequest\"\"\n\x11ListPortsResponse\x12\r\n\x05ports\x18\x01 \x03(\t\"R\n\x10SendFrameRequest\x12\x0c\n\x04port\x18\x01 \x01(\t\x12\x11\n\trgb_frame\x18\x02 \x01(\x0c\x12\r\n\x05width\x18\x03 \x01(\r\x12\x0e\n\x06height\x18\x04 \x01(\r\"\'\n\x11SendFrameResponse\x12\x12\n\nbytes_sent\x18\x01 \x01(\r2\xb6\x01\n\x0cMatrixSender\x12R\n\tListPorts\x12!.matrixsender.v1.ListPortsRequest\x1a\".matrixsender.v1.ListPortsResponse\x12R\n\tSendFrame\x12!.matrixsender.v1.SendFrameRequest\x1a\".matrixsender.v1.SendFrameResponseB\x0f\xaa\x02\x0cMatrixSenderb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!matrix_sender/matrix_sender.proto\x12\x0fmatrixsender.v1\"\x12\n\x10ListPortsRequest\"\x15\n\x13\x43\x61meraStreamRequest\"?\n\x0b\x43\x61meraFrame\x12\x11\n\trgb_frame\x18\x01 \x01(\x0c\x12\r\n\x05width\x18\x02 \x01(\r\x12\x0e\n\x06height\x18\x03 \x01(\r\"\"\n\x11ListPortsResponse\x12\r\n\x05ports\x18\x01 \x03(\t\"R\n\x10SendFrameRequest\x12\x0c\n\x04port\x18\x01 \x01(\t\x12\x11\n\trgb_frame\x18\x02 \x01(\x0c\x12\r\n\x05width\x18\x03 \x01(\r\x12\x0e\n\x06height\x18\x04 \x01(\r\"\'\n\x11SendFrameResponse\x12\x12\n\nbytes_sent\x18\x01 \x01(\r2\x8c\x02\n\x0cMatrixSender\x12R\n\tListPorts\x12!.matrixsender.v1.ListPortsRequest\x1a\".matrixsender.v1.ListPortsResponse\x12R\n\tSendFrame\x12!.matrixsender.v1.SendFrameRequest\x1a\".matrixsender.v1.SendFrameResponse\x12T\n\x0cStreamCamera\x12$.matrixsender.v1.CameraStreamRequest\x1a\x1c.matrixsender.v1.CameraFrame0\x01\x42\x0f\xaa\x02\x0cMatrixSenderb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,12 +34,16 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._serialized_options = b'\252\002\014MatrixSender'
   _globals['_LISTPORTSREQUEST']._serialized_start=54
   _globals['_LISTPORTSREQUEST']._serialized_end=72
-  _globals['_LISTPORTSRESPONSE']._serialized_start=74
-  _globals['_LISTPORTSRESPONSE']._serialized_end=108
-  _globals['_SENDFRAMEREQUEST']._serialized_start=110
-  _globals['_SENDFRAMEREQUEST']._serialized_end=192
-  _globals['_SENDFRAMERESPONSE']._serialized_start=194
-  _globals['_SENDFRAMERESPONSE']._serialized_end=233
-  _globals['_MATRIXSENDER']._serialized_start=236
-  _globals['_MATRIXSENDER']._serialized_end=418
+  _globals['_CAMERASTREAMREQUEST']._serialized_start=74
+  _globals['_CAMERASTREAMREQUEST']._serialized_end=95
+  _globals['_CAMERAFRAME']._serialized_start=97
+  _globals['_CAMERAFRAME']._serialized_end=160
+  _globals['_LISTPORTSRESPONSE']._serialized_start=162
+  _globals['_LISTPORTSRESPONSE']._serialized_end=196
+  _globals['_SENDFRAMEREQUEST']._serialized_start=198
+  _globals['_SENDFRAMEREQUEST']._serialized_end=280
+  _globals['_SENDFRAMERESPONSE']._serialized_start=282
+  _globals['_SENDFRAMERESPONSE']._serialized_end=321
+  _globals['_MATRIXSENDER']._serialized_start=324
+  _globals['_MATRIXSENDER']._serialized_end=592
 # @@protoc_insertion_point(module_scope)

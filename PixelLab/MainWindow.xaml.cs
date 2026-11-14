@@ -12,11 +12,14 @@ public partial class MainWindow : Window
     private const string Port = "COM3";
     private int patternId = 0;
     private readonly DispatcherTimer continuousUpdateTimer;
+    private readonly Brush blackBoardBackground;
+    private CancellationTokenSource? cameraStreamingCancellation;
     private bool isSendingContinuousFrame;
 
     public MainWindow()
     {
         InitializeComponent();
+        blackBoardBackground = BlackBoard.Background;
         BlackBoard.DefaultDrawingAttributes.Color = Colors.White;
         BlackBoard.DefaultDrawingAttributes.Width = 4;
         BlackBoard.DefaultDrawingAttributes.Height = 4;
@@ -74,7 +77,6 @@ public partial class MainWindow : Window
             var (rgbFrame, width, height) = CaptureInkCanvas(BlackBoard);
             var bytesSent = await MatrixSenderService.SendFrameAsync(
                 Port, rgbFrame, width, height);
-            MessageBox.Show($"Sent {bytesSent} RGB bytes to {Port}.");
         }
         catch (RpcException exception) when (exception.StatusCode == StatusCode.Unavailable)
         {
@@ -110,6 +112,75 @@ public partial class MainWindow : Window
         {
             continuousUpdateTimer.Stop();
         }
+    }
+
+    private async void CameraStreaming_Checked(object sender, RoutedEventArgs e)
+    {
+        var cancellation = new CancellationTokenSource();
+        cameraStreamingCancellation = cancellation;
+
+        try
+        {
+            await foreach (var frame in MatrixSenderService.StreamCameraAsync(cancellation.Token))
+            {
+                if (cancellation.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                var width = checked((int)frame.Width);
+                var height = checked((int)frame.Height);
+                var bitmap = BitmapSource.Create(
+                    width,
+                    height,
+                    96,
+                    96,
+                    PixelFormats.Rgb24,
+                    null,
+                    frame.RgbFrame.ToByteArray(),
+                    checked(width * 3));
+                BlackBoard.Background = new ImageBrush(bitmap);
+            }
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+        {
+        }
+        catch (RpcException exception)
+            when (cancellation.IsCancellationRequested
+                && exception.StatusCode == StatusCode.Cancelled)
+        {
+        }
+        catch (RpcException exception)
+        {
+            MessageBox.Show(
+                $"Camera streaming failed ({exception.StatusCode}): {exception.Status.Detail}",
+                "Camera streaming failed",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(
+                exception.Message,
+                "Camera streaming failed",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+        finally
+        {
+            if (ReferenceEquals(cameraStreamingCancellation, cancellation))
+            {
+                cameraStreamingCancellation = null;
+                CameraStreaming.IsChecked = false;
+            }
+
+            cancellation.Dispose();
+        }
+    }
+
+    private void CameraStreaming_Unchecked(object sender, RoutedEventArgs e)
+    {
+        cameraStreamingCancellation?.Cancel();
     }
 
     private void Thickness_ValueChanged(
@@ -215,16 +286,9 @@ public partial class MainWindow : Window
         {
             var sourceIndex = pixel * 4;
             var targetIndex = pixel * 3;
-            var alpha = bgraFrame[sourceIndex + 3];
-            var inverseAlpha = 255 - alpha;
-            var background = ((SolidColorBrush)canvas.Background).Color;
-
-            rgbFrame[targetIndex] = (byte)(
-                bgraFrame[sourceIndex + 2] + background.R * inverseAlpha / 255);
-            rgbFrame[targetIndex + 1] = (byte)(
-                bgraFrame[sourceIndex + 1] + background.G * inverseAlpha / 255);
-            rgbFrame[targetIndex + 2] = (byte)(
-                bgraFrame[sourceIndex] + background.B * inverseAlpha / 255);
+            rgbFrame[targetIndex] = bgraFrame[sourceIndex + 2];
+            rgbFrame[targetIndex + 1] = bgraFrame[sourceIndex + 1];
+            rgbFrame[targetIndex + 2] = bgraFrame[sourceIndex];
         }
 
         return (rgbFrame, width, height);
